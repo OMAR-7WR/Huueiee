@@ -1,16 +1,82 @@
-import sys
+import re
+from langdetect import detect
 
-def main():
-    print("Huueiee App: Language Understanding (Python Script)")
-    
-    # ইউজার ইনপুট নেওয়া
-    user_input = input("আপনার ভাষা কীভাবে বুঝবো?: ")
+# একটি ফাংশন যেটি ইনপুটের ভাষা শনাক্ত করবে
+def language_identifier(user_input):
+    try:
+        # এখানে langdetect লাইব্রেরি ব্যবহার করে ভাষা শনাক্ত করা হচ্ছে
+        language = detect(user_input)
+        return language
+    except Exception as e:
+        return "Unknown"
 
-    # যদি ভাষা 'বাংলা' হয়
-    if 'বাংলা' in user_input:
-        print("আপনি বাংলায় কথা বলছেন। আমি বাংলা বুঝতে পারি।")
+# একটি ফাংশন যা ইউজারের ইনপুট অনুযায়ী রেসপন্স তৈরি করবে
+def generate_response(language, user_input):
+    # বাংলা ভাষা ইনপুটের জন্য
+    if language == "bn":
+        if "কেমন আছো" in user_input:
+            return "আমি ভালো আছি, ধন্যবাদ! আপনি কেমন আছেন?"
+        elif "ধন্যবাদ" in user_input:
+            return "আপনাকেও ধন্যবাদ!"
+        elif "তোমার নাম কী?" in user_input:
+            return "আমার নাম হিউইই (Huueiee)!"
+        else:
+            return "আমি বাংলা ভাষা বুঝি, আপনি কি আরেকটি প্রশ্ন করতে চান?"
+
+    # ইংরেজি ভাষা ইনপুটের জন্য
+    elif language == "en":
+        if "How are you" in user_input:
+            return "I'm doing well, thank you! How about you?"
+        elif "Thank you" in user_input:
+            return "You're welcome!"
+        elif "What's your name?" in user_input:
+            return "My name is Huueiee!"
+        else:
+            return "I understand English, feel free to ask anything."
+
+    # স্প্যানিশ ভাষা ইনপুটের জন্য
+    elif language == "es":
+        if "¿Cómo estás?" in user_input:
+            return "Estoy bien, gracias. ¿Y tú?"
+        elif "Gracias" in user_input:
+            return "¡De nada!"
+        elif "¿Cuál es tu nombre?" in user_input:
+            return "¡Mi nombre es Huueiee!"
+        else:
+            return "Entiendo el español, puedes preguntar lo que quieras."
+
+    # ফরাসি ভাষা ইনপুটের জন্য
+    elif language == "fr":
+        if "Comment ça va?" in user_input:
+            return "Je vais bien, merci. Et toi?"
+        elif "Merci" in user_input:
+            return "De rien!"
+        elif "Quel est ton nom?" in user_input:
+            return "Mon nom est Huueiee!"
+        else:
+            return "Je comprends le français, n'hésitez pas à poser des questions."
+
+    # যদি কোনও ভাষা শনাক্ত না হয়
     else:
-        print(f"আপনি বললেন: {user_input}, আমি এই ভাষা বুঝতে পারি না।")
+        return "Sorry, I cannot understand this language."
+
+# মূল ফাংশন যা ইউজারকে ইনপুট দিতে বলবে এবং তার ভাষা শনাক্ত করবে
+def main():
+    print("Welcome to Huueiee App - Language Understanding System")
+    print("Please enter a phrase or question:")
+
+    # ইউজারের ইনপুট নেয়া
+    user_input = input("Your input: ")
+
+    # ভাষা শনাক্ত করা
+    language = language_identifier(user_input)
+    print(f"Detected Language: {language}")
+
+    # ভাষার ভিত্তিতে রেসপন্স তৈরি করা
+    response = generate_response(language, user_input)
+    
+    # রেসপন্স প্রদর্শন করা
+    print("Response:", response)
 
 if __name__ == "__main__":
     main()
