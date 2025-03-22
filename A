@@ -1,0 +1,16 @@
+import sys
+
+def main():
+    print("Huueiee App: Language Understanding (Python Script)")
+    
+    # ইউজার ইনপুট নেওয়া
+    user_input = input("আপনার ভাষা কীভাবে বুঝবো?: ")
+
+    # যদি ভাষা 'বাংলা' হয়
+    if 'বাংলা' in user_input:
+        print("আপনি বাংলায় কথা বলছেন। আমি বাংলা বুঝতে পারি।")
+    else:
+        print(f"আপনি বললেন: {user_input}, আমি এই ভাষা বুঝতে পারি না।")
+
+if __name__ == "__main__":
+    main()
