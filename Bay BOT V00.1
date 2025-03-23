@@ -1,0 +1,146 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOrt1NYshPgFfcuLhnh0INP"
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "PfoIJogyf9gn"
+      },
+      "outputs": [],
+      "source": [
+        "!pip install chatterbot_corpus"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# লাইব্রেরি ইমপোর্ট\n",
+        "from chatterbot import ChatBot\n",
+        "from chatterbot.trainers import ChatterBotCorpusTrainer\n",
+        "\n",
+        "# চ্যাটবট তৈরি\n",
+        "chatbot = ChatBot(\n",
+        "    'CustomerSupportBot',\n",
+        "    storage_adapter='chatterbot.storage.SQLStorageAdapter',\n",
+        "    logic_adapters=[\n",
+        "        'chatterbot.logic.BestMatch',\n",
+        "        'chatterbot.logic.MathematicalEvaluation'\n",
+        "    ],\n",
+        "    database_uri='sqlite:///database.db'\n",
+        ")\n",
+        "\n",
+        "# ট্রেনার তৈরি\n",
+        "trainer = ChatterBotCorpusTrainer(chatbot)\n",
+        "\n",
+        "# ইংরেজি কপোরাস দিয়ে চ্যাটবট ট্রেন করা\n",
+        "trainer.train(\"chatterbot.corpus.english\")\n",
+        "\n",
+        "print(\"চ্যাটবট প্রস্তুত!\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "QGs4i8XLhw_P",
+        "outputId": "bb0c6f48-e914-41c7-da84-f2aa67cbdc00"
+      },
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "ChatterBot Corpus Trainer: 19it [00:04,  4.53it/s]"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "চ্যাটবট প্রস্তুত!\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# চ্যাটবটের সাথে কথোপকথন\n",
+        "while True:\n",
+        "    try:\n",
+        "        user_input = input(\"আপনার প্রশ্ন লিখুন (Exit লেখলে চ্যাটবট বন্ধ হবে): \")\n",
+        "\n",
+        "        if user_input.lower() == 'exit':\n",
+        "            print(\"চ্যাটবট বন্ধ করা হচ্ছে...\")\n",
+        "            break\n",
+        "\n",
+        "        response = chatbot.get_response(user_input)\n",
+        "        print(\"চ্যাটবট: \", response)\n",
+        "\n",
+        "    except (KeyboardInterrupt, EOFError, SystemExit):\n",
+        "        break"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "mtFby72hiIqO",
+        "outputId": "4d47abf1-197a-484f-9737-3480f21051d9"
+      },
+      "execution_count": 4,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "আপনার প্রশ্ন লিখুন (Exit লেখলে চ্যাটবট বন্ধ হবে): hi\n",
+            "চ্যাটবট:  How are you doing?\n",
+            "আপনার প্রশ্ন লিখুন (Exit লেখলে চ্যাটবট বন্ধ হবে): hello\n",
+            "চ্যাটবট:  Hi\n",
+            "আপনার প্রশ্ন লিখুন (Exit লেখলে চ্যাটবট বন্ধ হবে): how are you\n",
+            "চ্যাটবট:  I am doing well.\n",
+            "আপনার প্রশ্ন লিখুন (Exit লেখলে চ্যাটবট বন্ধ হবে): what is your name?\n",
+            "চ্যাটবট:  I am still young by your standards.\n",
+            "আপনার প্রশ্ন লিখুন (Exit লেখলে চ্যাটবট বন্ধ হবে): can you speek bangla?\n",
+            "চ্যাটবট:  Sure, ask away.\n",
+            "আপনার প্রশ্ন লিখুন (Exit লেখলে চ্যাটবট বন্ধ হবে): sky to bangla?\n",
+            "চ্যাটবট:  i do not like guns\n",
+            "আপনার প্রশ্ন লিখুন (Exit লেখলে চ্যাটবট বন্ধ হবে): exit\n",
+            "চ্যাটবট বন্ধ করা হচ্ছে...\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Today my fast day. ✈"
+      ],
+      "metadata": {
+        "id": "LaWxdE93hBM9"
+      }
+    }
+  ]
+}
